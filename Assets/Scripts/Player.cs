@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -7,7 +8,7 @@ using UnityEngine.UI;
 public class Player : MonoBehaviour
 {
     public int keys = 0;
-    float speed = 5.0f;
+    static public float speed = 5.0f;
     public GameObject door;
     public AudioSource Recogito;
     public Text KeyAmount;
@@ -60,7 +61,11 @@ public class Player : MonoBehaviour
         if (collision.gameObject.tag == "Chest" )
         {
             // elimina el objeto con el que coliciono
-            YouWin.text = "!!GANASTE!!";
+            
+
+            StartCoroutine(ShowMessage(2));
+
+            
         }
         // enemigos
         if (collision.gameObject.tag == "Enemy")
@@ -88,6 +93,14 @@ public class Player : MonoBehaviour
             }
         } 
     }
+
+    IEnumerator ShowMessage(float delay)
+    {
+        YouWin.text = "!!GANASTE!!";
+        yield return new WaitForSeconds(delay);
+        SceneManager.LoadScene("mainMenu");
+    }
+
 }
 
 
